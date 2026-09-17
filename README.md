@@ -106,12 +106,6 @@ vendor/                 the py2Dmol embed bundle (see vendor/README.md)
 `window.instaprot` exposes the feed, the viewer pool and the saved list from the
 console.
 
-## Handoff
-
-[HANDOFF.md](HANDOFF.md) has the current state, the decisions behind the
-awkward bits, and the gotchas — read it before changing the viewer pool or
-upgrading py2Dmol.
-
 ## Credits
 
 Structures and metadata from the [RCSB Protein Data Bank](https://www.rcsb.org/).

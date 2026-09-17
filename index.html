@@ -38,6 +38,13 @@
 <dialog class="sheet" id="savedSheet">
   <div class="sheet-head"><h2>Saved</h2><button class="sheet-close" id="savedClose" aria-label="Close">✕</button></div>
   <div class="sheet-body" id="savedList"></div>
+  <div class="sheet-foot">
+    <span class="sheet-note">Saves live in this browser. Copy the link to keep them.<br>Structures rendered with <a href="https://github.com/sokrypton/py2Dmol" target="_blank" rel="noopener">py2Dmol</a>.</span>
+    <span class="sheet-actions">
+      <button class="sheet-copy" id="savedJson" hidden>json</button>
+      <button class="sheet-copy is-primary" id="savedLink">copy link</button>
+    </span>
+  </div>
 </dialog>
 
 <script src="vendor/py2Dmol.embed.min.js"></script>

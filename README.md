@@ -34,15 +34,35 @@ build and no output directory.
 | | |
 | --- | --- |
 | swipe / scroll, `↑` `↓` `j` `k` | previous / next structure |
-| tap the fact card, `→` or `f` | next fact |
+| tap the fact card, swipe it left, `→` or `f` | next fact |
+| swipe the fact card right, `←` | previous fact |
 | `space` | stop and start the spin |
 | `s` / `c` | cycle drawing style / colour scheme |
-| ♥ | keep a structure in your saved list (stored locally) |
+| ♥ | keep a structure in your saved list ([see below](#saves-picks-and-sharing)) |
 | ↗ | copy a link straight to that structure |
 | ⤢ | re-centre the view after you have dragged it around |
 | ⎙ | download a transparent PNG of the structure as posed |
 
 `https://…/#1HHO` opens on that entry and then keeps shuffling.
+
+## Saves, picks and sharing
+
+There is no account and no server — GitHub Pages serves static files only — so
+saves work in two layers.
+
+**Yours.** ♥ writes to `localStorage`: per browser, private to you, and cleared
+by iOS Safari after about a week of not opening the site. **copy link** in the
+Saved sheet packs your ids into a `#saves=…` URL; opening it anywhere restores
+them. That is the backup, and it works for visitors who have no repo access.
+Adding the site to your Home Screen also makes Safari far less eager to evict.
+
+**Picks.** [`picks.json`](picks.json) is a curated list committed to the repo
+and shown to *everyone*, in its own section below their own saves, read-only. To
+add to it, visit `#owner` once to unlock the **json** button, then paste what it
+copies over `picks.json` and commit — editing on github.com is enough.
+
+Your friends' saves never leave their own browsers, and nothing they do can
+touch your picks.
 
 ## How it works
 
@@ -79,11 +99,18 @@ assets/js/facts.js      metadata in, fun facts out
 assets/js/viewer.js     the py2Dmol viewer pool
 assets/js/feed.js       slides, scrolling, prefetching, the caption
 assets/js/app.js        wiring: toolbar, keys, saved list, boot
+picks.json              curated picks, shown to every visitor
 vendor/                 the py2Dmol embed bundle (see vendor/README.md)
 ```
 
 `window.instaprot` exposes the feed, the viewer pool and the saved list from the
 console.
+
+## Handoff
+
+[HANDOFF.md](HANDOFF.md) has the current state, the decisions behind the
+awkward bits, and the gotchas — read it before changing the viewer pool or
+upgrading py2Dmol.
 
 ## Credits
 

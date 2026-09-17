@@ -8,6 +8,10 @@ const TRIM_BATCH = 6;    // don't bother reshuffling the scroll for fewer than t
 import { randomEntryIds, fetchMetadata, fetchStructure, markServed, releasedBefore } from './rcsb.js';
 import { headline, handle, hashtags, factDeck } from './facts.js';
 
+// Short enough to feel responsive on a phone, long enough that a tap with a
+// little drift in it still reads as a tap.
+const SWIPE_PX = 36;
+
 const el = (tag, className, text) => {
   const node = document.createElement(tag);
   if (className) node.className = className;
@@ -165,7 +169,36 @@ export class Feed {
 
     for (let i = 0; i < slide.facts.length; i++) ticks.append(el('i', 'tick'));
 
-    factBox.addEventListener('click', () => { this._showFact(slide, slide.factIndex + 1); this._restartFactTimer(slide); });
+    // Horizontal drag flips facts; vertical is left alone so the same gesture
+    // started on the card still scrolls the feed. `touch-action: pan-y` on
+    // .fact is what makes the browser hand us the horizontal movement without
+    // giving up the vertical scroll. Pointer capture so a finger that drifts
+    // off the card still lands its swipe.
+    let downX = 0, downY = 0, swiped = false;
+    factBox.addEventListener('pointerdown', e => {
+      downX = e.clientX; downY = e.clientY; swiped = false;
+      try { factBox.setPointerCapture(e.pointerId); } catch {}
+    });
+    factBox.addEventListener('pointerup', e => {
+      const dx = e.clientX - downX, dy = e.clientY - downY;
+      if (Math.abs(dx) < SWIPE_PX && Math.abs(dy) < SWIPE_PX) return;  // a tap
+      // Anything longer was meant as a drag, so swallow the click either way:
+      // sideways flips a fact, up or down was aiming at the feed.
+      swiped = true;
+      if (Math.abs(dx) <= Math.abs(dy)) return;
+      this._showFact(slide, slide.factIndex + (dx < 0 ? 1 : -1));
+      this._restartFactTimer(slide);
+    });
+    // Touch scrolling steals the gesture rather than ending it, so there is no
+    // pointerup and no click — just reset and let the feed have it.
+    factBox.addEventListener('pointercancel', () => { swiped = false; });
+    // A swipe still fires a click afterwards; without this the card would
+    // advance twice and a right-swipe would land back where it started.
+    factBox.addEventListener('click', () => {
+      if (swiped) { swiped = false; return; }
+      this._showFact(slide, slide.factIndex + 1);
+      this._restartFactTimer(slide);
+    });
     likeBtn.addEventListener('click', () => {
       const on = this.saved.toggle(id, { id, name: headline(meta) });
       likeBtn.classList.toggle('on', on);
@@ -328,6 +361,11 @@ export class Feed {
   nextFact() {
     const slide = this.active;
     if (slide) { this._showFact(slide, slide.factIndex + 1); this._restartFactTimer(slide); }
+  }
+
+  previousFact() {
+    const slide = this.active;
+    if (slide) { this._showFact(slide, slide.factIndex - 1); this._restartFactTimer(slide); }
   }
 }
 

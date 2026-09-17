@@ -48,7 +48,7 @@ button { border: 0; background: none; cursor: pointer; }
 }
 .topbar > * { pointer-events: auto; }
 
-.brand { display: flex; align-items: center; gap: 8px; }
+.brand { display: flex; align-items: center; gap: 8px; min-width: 0; flex-shrink: 0; overflow: hidden; }
 .brand-mark { font-size: 20px; filter: saturate(1.2); }
 .brand-name {
   font-size: 19px;
@@ -60,7 +60,7 @@ button { border: 0; background: none; cursor: pointer; }
   color: transparent;
 }
 
-.topbar-controls { display: flex; align-items: center; gap: 6px; }
+.topbar-controls { display: flex; align-items: center; gap: 6px; min-width: 0; }
 
 .chip {
   display: inline-flex;
@@ -75,11 +75,17 @@ button { border: 0; background: none; cursor: pointer; }
   font-size: 12.5px;
   color: var(--ink);
   transition: border-color 140ms ease, transform 140ms ease;
+  min-width: 0;
+  flex-shrink: 1;
 }
 .chip:active { transform: scale(0.96); }
 .chip:hover { border-color: rgba(255, 255, 255, 0.28); }
-.chip-key { color: var(--ink-faint); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; }
-.icon-chip { position: relative; padding: 6px 10px; font-size: 14px; }
+.chip-key { color: var(--ink-faint); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; flex-shrink: 0; }
+#styleLabel, #colorLabel {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  max-width: 25vw;
+}
+.icon-chip { position: relative; padding: 6px 10px; font-size: 14px; flex-shrink: 0; }
 
 .badge {
   position: absolute;

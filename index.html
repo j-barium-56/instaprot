@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#08080e">
+<title>InstaProt — doomscroll the Protein Data Bank</title>
+<meta name="description" content="An endless vertical feed of random protein structures from the PDB, rendered with py2Dmol, with a fun fact for every one.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>">
+<link rel="preconnect" href="https://search.rcsb.org">
+<link rel="preconnect" href="https://data.rcsb.org">
+<link rel="preconnect" href="https://files.rcsb.org">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+<header class="topbar" id="topbar">
+  <div class="brand"><span class="brand-mark">🧬</span><span class="brand-name">InstaProt</span></div>
+  <div class="topbar-controls">
+    <button class="chip" id="styleBtn" title="Drawing style (S)"><span class="chip-key">style</span><span id="styleLabel">richardson</span></button>
+    <button class="chip" id="colorBtn" title="Colour scheme (C)"><span class="chip-key">colour</span><span id="colorLabel">chain</span></button>
+    <button class="chip icon-chip" id="savedBtn" title="Saved structures">🔖<span class="badge" id="savedCount" hidden>0</span></button>
+  </div>
+</header>
+
+<main class="feed" id="feed" tabindex="-1"></main>
+
+<div class="boot" id="boot">
+  <div class="boot-mark">🧬</div>
+  <div class="boot-title">InstaProt</div>
+  <div class="boot-sub" id="bootSub">rummaging through 250,000 structures…</div>
+</div>
+
+<div class="hint" id="hint" hidden>
+  <span class="hint-arrow">↑</span> swipe for the next protein
+</div>
+
+<dialog class="sheet" id="savedSheet">
+  <div class="sheet-head"><h2>Saved</h2><button class="sheet-close" id="savedClose" aria-label="Close">✕</button></div>
+  <div class="sheet-body" id="savedList"></div>
+</dialog>
+
+<script src="vendor/py2Dmol.embed.min.js"></script>
+<script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
